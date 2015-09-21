@@ -1,17 +1,18 @@
 require 'csv'
 
 class Controller
-  attr_accessor :data, :people, :filename
+  attr_reader :filename
+
   def initialize(filename)
     @filename = filename
   end
 
   def read_file(filename)
-    @data = CSV.read(filename, headers: true)
+    CSV.read(filename, headers: true)
   end
 
   def convert_file_to_hash(data)
-    @people = data.map{|person| person.to_hash}
+    data.map{|person| person.to_hash}
   end
 
   def filter_by_email(people)
@@ -29,8 +30,8 @@ class Controller
   end
 
   def run
-    read_file(filename)
-    convert_file_to_hash(data)
+    data = read_file(filename)
+    people = convert_file_to_hash(data)
     sorted_people = sort_by_last_name(filter_by_email(people))
     print_list(sorted_people)
   end
