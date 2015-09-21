@@ -9,4 +9,8 @@ describe "Parser" do
   it 'can convert the data to an array of hashes' do
     expect(controller.people[0]['email']).to eq('steve.johnson@gmail.com')
   end
+
+  it 'can filter uniquely by email' do
+    expect(controller.filter_by_email(controller.people).count).to be(2)
+  end
 end
