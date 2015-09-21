@@ -1,10 +1,17 @@
 require 'csv'
 
 class Controller
-  attr_accessor :people
-  def initialize(file)
-    data = CSV.read(file, headers: true)
-    @people = data.map{ |person| person.to_hash}
+  attr_accessor :data, :people, :filename
+  def initialize(filename)
+    @filename = filename
+  end
+
+  def read_file(filename)
+    @data = CSV.read(filename, headers: true)
+  end
+
+  def convert_file_to_hash(data)
+    @people = data.map{|person| person.to_hash}
   end
 
   def filter_by_email(people)
@@ -14,5 +21,7 @@ class Controller
   def sort_by_last_name(people)
     people.sort{|person1, person2| person1["last_name"] <=> person2["last_name"]}
   end
-
 end
+
+controller = Controller.new('sample_data.csv')
+controller.run
